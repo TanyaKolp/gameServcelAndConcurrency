@@ -18,11 +18,13 @@ public class SimpleServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 //        super.doGet(req, resp);
-        String my = req.getParameter("my");
+        String my = req.getParameter("name");
         req.setAttribute("name", my);
-        req.getRequestDispatcher("page.jsp").forward(req, resp);
-        resp.
+//        req.getRequestDispatcher("page.jsp").forward(req, resp);
 
+
+
+        resp.sendRedirect("page.jsp");
 //        BigInteger i = extractFromRequest(req);
 //        List<BigInteger> factors = factor(i);
 //        encodeIntoResponse(resp, factors);
@@ -46,6 +48,4 @@ public class SimpleServlet extends HttpServlet {
 
         return bigIntegers;
     }
-
-
 }
