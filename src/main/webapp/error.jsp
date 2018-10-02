@@ -4,7 +4,7 @@
     <title>Devcolibri.com</title>
 </head>
 <body>
-<h1>Hello </h1>
+<h1>Error </h1>
 <p>${countArray}</p>
 </body>
 </html>

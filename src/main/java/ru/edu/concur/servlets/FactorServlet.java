@@ -1,4 +1,4 @@
-package ru.edu.concur;
+package ru.edu.concur.servlets;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,28 +10,23 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(urlPatterns = "/get")
-public class SimpleServlet extends HttpServlet {
-    int count = 0;
+@WebServlet("/count")
+public class FactorServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-//        super.doGet(req, resp);
-        String my = req.getParameter("name");
-        req.setAttribute("name", my);
-//        req.getRequestDispatcher("page.jsp").forward(req, resp);
-
-
-
-        resp.sendRedirect("page.jsp");
-//        BigInteger i = extractFromRequest(req);
-//        List<BigInteger> factors = factor(i);
-//        encodeIntoResponse(resp, factors);
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        BigInteger num = extractFromRequest(req);
+        if (num == null) {
+            resp.sendRedirect("error.jsp");
+            return;
+        }
+        List<BigInteger> factors = factor(num);
+        encodeIntoResponse(resp, req, factors);
     }
 
-    private void encodeIntoResponse(HttpServletResponse resp, List<BigInteger> factors) {
-//        resp.
+    private void encodeIntoResponse(HttpServletResponse resp, HttpServletRequest req, List<BigInteger> factors) throws ServletException, IOException {
+        req.setAttribute("countArray", factors);
+        req.getRequestDispatcher("page.jsp").forward(req, resp);
     }
 
     private BigInteger extractFromRequest(HttpServletRequest req) {
@@ -40,12 +35,10 @@ public class SimpleServlet extends HttpServlet {
     }
 
     private List<BigInteger> factor(BigInteger i) {
-
         List<BigInteger> bigIntegers = new ArrayList<>();
         for (BigInteger j = i; j.compareTo(BigInteger.ZERO) > 0; j.subtract(BigInteger.ONE)) {
             bigIntegers.add(j);
         }
-
         return bigIntegers;
     }
 }
